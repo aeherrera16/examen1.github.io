@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Convertidor de Moneda - Madre Rusia</title>
+  <meta name="description" content="Convertidor de moneda simple y funcional">
+  <meta name="keywords" content="convertidor, moneda, Rusia, finanzas">
+
+  <!-- Favicons -->
+  <link href="assets/img/icono.png" rel="icon">
+  <link href="assets/img/icono.png" rel="apple-touch-icon">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <style>
+    /* Fondo difuminado */
+    body {
+      background-image: url('assets/img/imagen-fondo.jpg'); /* Ruta de tu imagen */
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Capa de desenfoque */
+    .blurred-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('assets/img/imagen-fondo.jpg'); /* Ruta de la misma imagen */
+      background-size: cover;
+      filter: blur(10px); /* Intensidad del desenfoque */
+      z-index: -1; /* Mantener la capa de fondo detrás del contenido */
+    }
+
+    /* Estilo del botón regresar */
+    .btn-regresar {
+      margin-top: 20px;
+      display: block;
+      width: 100%;
+      text-align: center;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+
+    .btn-regresar:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Capa difuminada -->
+  <div class="blurred-background"></div>
+
+  <!-- Header -->
+  <header class="bg-dark text-light text-center py-4">
+    <h1>Convertidor de Moneda</h1>
+    <p>Convierte monedas entre diferentes países fácilmente.</p>
+  </header>
+
+  <!-- Convertidor -->
+  <main class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form id="currency-converter" class="shadow p-4 rounded bg-light">
+          <div class="mb-3">
+            <label for="amount" class="form-label">Cantidad</label>
+            <input type="number" class="form-control" id="amount" placeholder="Ingrese la cantidad" required>
+          </div>
+          <div class="mb-3">
+            <label for="fromCurrency" class="form-label">De</label>
+            <select class="form-select" id="fromCurrency" required>
+              <option value="USD">Dólar (USD)</option>
+              <option value="EUR">Euro (EUR)</option>
+              <option value="RUB">Rublo (RUB)</option>
+              <option value="GBP">Libra Esterlina (GBP)</option>
+              <option value="JPY">Yen Japonés (JPY)</option>
+              <option value="MXN">Peso Mexicano (MXN)</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="toCurrency" class="form-label">A</label>
+            <select class="form-select" id="toCurrency" required>
+              <option value="USD">Dólar (USD)</option>
+              <option value="EUR">Euro (EUR)</option>
+              <option value="RUB">Rublo (RUB)</option>
+              <option value="GBP">Libra Esterlina (GBP)</option>
+              <option value="JPY">Yen Japonés (JPY)</option>
+              <option value="MXN">Peso Mexicano (MXN)</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary w-100" onclick="convertCurrency()">Convertir</button>
+        </form>
+        <div id="result" class="text-center mt-4 text-success fw-bold"></div>
+
+        <!-- Botón regresar -->
+        <a href="index.html" class="btn-regresar">Regresar</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-light text-center py-3">
+    <p>&copy; 2024 Madre Rusia. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    function convertCurrency() {
+      // Obtener los valores ingresados por el usuario
+      const amount = parseFloat(document.getElementById('amount').value);
+      const fromCurrency = document.getElementById('fromCurrency').value;
+      const toCurrency = document.getElementById('toCurrency').value;
+
+      // Verificar si la cantidad es válida
+      if (isNaN(amount) || amount <= 0) {
+        alert("Por favor, ingrese una cantidad válida.");
+        return;
+      }
+
+      // Tasas de cambio predefinidas
+      const exchangeRates = {
+        USD: { EUR: 0.93, RUB: 78.50, GBP: 0.81, JPY: 147.42, MXN: 18.06 },
+        EUR: { USD: 1.08, RUB: 84.50, GBP: 0.87, JPY: 158.73, MXN: 19.45 },
+        RUB: { USD: 0.012, EUR: 0.012, GBP: 0.010, JPY: 1.88, MXN: 0.23 },
+        GBP: { USD: 1.24, EUR: 1.15, RUB: 96.50, JPY: 183.74, MXN: 22.45 },
+        JPY: { USD: 0.0068, EUR: 0.0063, RUB: 0.53, GBP: 0.0054, MXN: 0.12 },
+        MXN: { USD: 0.055, EUR: 0.051, RUB: 4.36, GBP: 0.044, JPY: 8.33 }
+      };
+
+      // Verificar si la moneda de origen y destino tienen tasa de cambio definida
+      if (!exchangeRates[fromCurrency] || !exchangeRates[fromCurrency][toCurrency]) {
+        alert("Conversión no disponible para estas monedas.");
+        return;
+      }
+
+      // Realizar la conversión
+      const rate = exchangeRates[fromCurrency][toCurrency];
+      const convertedAmount = (amount * rate).toFixed(2);
+
+      // Mostrar el resultado
+      document.getElementById('result').innerText = 
+        `${amount} ${fromCurrency} son ${convertedAmount} ${toCurrency}`;
+    }
+  </script>
+
+</body>
+</html>
